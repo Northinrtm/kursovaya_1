@@ -9,8 +9,7 @@ public class Employee {
         this.name = name;
         this.otdel = otdel;
         this.salary = salary;
-        idEmp = id;
-        id ++;
+        idEmp = id++;
     }
 
     @Override

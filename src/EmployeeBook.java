@@ -1,5 +1,5 @@
 class EmployeeBook {
-    private Employee[] employees = new Employee[10];
+    private final Employee[] employees = new Employee[10];
 
     void listEmployees() {
         System.out.println("Список всех сотрудников:");
@@ -11,7 +11,9 @@ class EmployeeBook {
     int sumSalary() {
         int sum = 0;
         for (Employee e : employees) {
-            sum += e.getSalary();
+            if (e != null) {
+                sum += e.getSalary();
+            }
         }
         return sum;
     }
@@ -24,13 +26,11 @@ class EmployeeBook {
         Employee emp = null;
         double min = sumSalary();
         for (Employee e : employees) {
-            if (min > e.getSalary()) {
-                min = e.getSalary();
-            }
-        }
-        for (Employee e : employees) {
-            if (e.getSalary() == min) {
-                emp = e;
+            if (e != null) {
+                if (min > e.getSalary()) {
+                    min = e.getSalary();
+                    emp = e;
+                }
             }
         }
         return emp;
@@ -44,13 +44,11 @@ class EmployeeBook {
         Employee emp = null;
         double max = 0;
         for (Employee e : employees) {
-            if (max < e.getSalary()) {
-                max = e.getSalary();
-            }
-        }
-        for (Employee e : employees) {
-            if (e.getSalary() == max) {
-                emp = e;
+            if (e != null) {
+                if (max < e.getSalary()) {
+                    max = e.getSalary();
+                    emp = e;
+                }
             }
         }
         return emp;
@@ -61,18 +59,28 @@ class EmployeeBook {
     }
 
     void midSalary() {
-        System.out.println("Средняя зарплата: \n" + ((double) sumSalary() / 10.00));
+        int count = 0;
+        for (Employee e : employees) {
+            if (e != null) {
+                count++;
+            }
+        }
+        System.out.println("Средняя зарплата: \n" + ((double) sumSalary() / count));
     }
 
     void listName() {
         for (Employee e : employees) {
-            System.out.println(e.getName());
+            if (e != null) {
+                System.out.println(e.getName());
+            }
         }
     }
 
     void indexSalary(double index) {
         for (Employee e : employees) {
-            e.setSalary(e.getSalary() * (index / 100.00) + e.getSalary());
+            if (e != null) {
+                e.setSalary(e.getSalary() * (index / 100.00) + e.getSalary());
+            }
         }
     }
 
@@ -80,9 +88,11 @@ class EmployeeBook {
         double a = sumSalary();
         Employee emp = null;
         for (Employee e : employees) {
-            if ((e.getOtdel() == i) && (a > e.getSalary())) {
-                a = e.getSalary();
-                emp = e;
+            if (e != null) {
+                if ((e.getOtdel() == i) && (a > e.getSalary())) {
+                    a = e.getSalary();
+                    emp = e;
+                }
             }
         }
         System.out.println("Сотрудник с минимальной зарплатой в отделе " + i + ":\n" + emp);
@@ -91,8 +101,10 @@ class EmployeeBook {
     void maxSalaryOtdel(int i) {
         double a = empMinSalary().getSalary();
         for (Employee e : employees) {
-            if ((e.getOtdel() == i) && (a < e.getSalary())) {
-                a = e.getSalary();
+            if (e != null) {
+                if ((e.getOtdel() == i) && (a < e.getSalary())) {
+                    a = e.getSalary();
+                }
             }
         }
         System.out.println("Сотрудник с максимальной зарплатой в отделе " + i + ":\n" + a);
@@ -101,8 +113,10 @@ class EmployeeBook {
     void sumSalaryOtdel(double i) {
         double sum = 0;
         for (Employee e : employees) {
-            if (e.getOtdel() == i) {
-                sum += e.getSalary();
+            if (e != null) {
+                if (e.getOtdel() == i) {
+                    sum += e.getSalary();
+                }
             }
         }
         System.out.println("Сумма затрат на зарплаты в " + i + " отделе:\n" + sum);
@@ -112,18 +126,22 @@ class EmployeeBook {
         int sum = 0;
         int count = 0;
         for (Employee e : employees) {
-            if (e.getOtdel() == i) {
-                sum += e.getSalary();
-                count++;
+            if (e != null) {
+                if (e.getOtdel() == i) {
+                    sum += e.getSalary();
+                    count++;
+                }
             }
         }
-        System.out.println("Средняя зарплата в " + i + " отделе: \n" + sum / count);
+        System.out.println("Средняя зарплата в " + i + " отделе: \n" + (double) sum / (double) count);
     }
 
     void indexSalaryOtdel(int i, int index) {
         for (Employee e : employees) {
-            if (e.getOtdel() == i) {
-                e.setSalary(e.getSalary() * (index / 100.00) + e.getSalary());
+            if (e != null) {
+                if (e.getOtdel() == i) {
+                    e.setSalary(e.getSalary() * (index / 100.00) + e.getSalary());
+                }
             }
         }
     }
@@ -131,8 +149,12 @@ class EmployeeBook {
     void printEmpOtdel(int i) {
         System.out.println("Список сотрудников отдела:");
         for (Employee e : employees) {
-            if (e.getOtdel() == i) {
-                System.out.println(e.getName() + " " + e.getSalary());
+            {
+                if (e != null) {
+                    if (e.getOtdel() == i) {
+                        System.out.println(e.getName() + " " + e.getSalary());
+                    }
+                }
             }
         }
     }
@@ -140,8 +162,10 @@ class EmployeeBook {
     void empSalaryUnder(double i) {
         System.out.println("Сотрудники чья зарплата ниже " + i + " :");
         for (Employee e : employees) {
-            if (e.getSalary() < i) {
-                System.out.println(e);
+            if (e != null) {
+                if (e.getSalary() < i) {
+                    System.out.println(e);
+                }
             }
         }
     }
@@ -149,8 +173,10 @@ class EmployeeBook {
     void empSalaryAbove(double i) {
         System.out.println("Сотрудники чья зарплата выше " + i + " :");
         for (Employee e : employees) {
-            if (e.getSalary() > i) {
-                System.out.println(e);
+            if (e != null) {
+                if (e.getSalary() > i) {
+                    System.out.println(e);
+                }
             }
         }
     }
@@ -169,58 +195,44 @@ class EmployeeBook {
     void deleteEmp(int id) {
         int i = -1;
         for (Employee e : employees) {
-            i++;
-            if (id == e.getIdEmp()) {
-                employees[i] = null;
+            if (e != null) {
+                i++;
+                if (id == e.getIdEmp()) {
+                    employees[i] = null;
+                }
             }
         }
     }
 
     void updateEmpSalary(String name, double i) {
         for (Employee e : employees) {
-            if (e.getName().equals(name)) {
-                e.setSalary(i);
+            if (e != null) {
+                if (e.getName().equals(name)) {
+                    e.setSalary(i);
+                }
             }
         }
     }
 
     void updateEmpOtdel(String name, int i) {
         for (Employee e : employees) {
-            if (e.getName().equals(name)) {
-                e.setOtdel(i);
+            if (e != null) {
+                if (e.getName().equals(name)) {
+                    e.setOtdel(i);
+                }
             }
         }
     }
 
     void printOtdelEmp() {
-        System.out.println("Сотрудники 1 отдела:");
-        for (Employee e : employees) {
-            if (e.getOtdel() == 1) {
-                System.out.print(e.getName()+", ");
-            }
-        }
-        System.out.println("\nСотрудники 2 отдела:");
-        for (Employee e : employees) {
-            if (e.getOtdel() == 2) {
-                System.out.print(e.getName()+", ");
-            }
-        }
-        System.out.println("\nСотрудники 3 отдела:");
-        for (Employee e : employees) {
-            if (e.getOtdel() == 3) {
-                System.out.print(e.getName()+", ");
-            }
-        }
-        System.out.println("\nСотрудники 4 отдела:");
-        for (Employee e : employees) {
-            if (e.getOtdel() == 4) {
-                System.out.print(e.getName()+", ");
-            }
-        }
-        System.out.println("\nСотрудники 5 отдела:");
-        for (Employee e : employees) {
-            if (e.getOtdel() == 5) {
-                System.out.print(e.getName()+", ");
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Сотрудники " + i + " отдела:");
+            for (Employee e : employees) {
+                if (e != null) {
+                    if (e.getOtdel() == i) {
+                        System.out.println(e.getName() + " " + e.getSalary());
+                    }
+                }
             }
         }
     }
